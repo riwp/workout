@@ -3,23 +3,40 @@
 LOCAL_REPO_PATH="/home/cmollo/workout"
 cd "$LOCAL_REPO_PATH" || exit
 
+# Git configuration
 USR_NAME="riwp"
 git config --global user.name "$USR_NAME"
 
 E_MAIL="europac197@gmail.com"
 git config --global user.email "$E_MAIL"
 
-REPO_NAME="fabai"  # Change this to your desired repository name
-gh repo create "$REPO_NAME" --public
+REPO_NAME="workout"  # Ensure this matches the name on GitHub
+GITHUB_USER="riwp"
+ORIGN_URL="https://github.com/$GITHUB_USER/$REPO_NAME.git"
 
-ORIGN_URL="https://github.com/riwp/workout.git"
-git remote set-url origin "$ORIGN_URL"
+# Check if the repository already exists on GitHub
+if gh repo view "$GITHUB_USER/$REPO_NAME" &> /dev/null; then
+    echo "Repository '$REPO_NAME' already exists on GitHub."
+else
+    echo "Creating repository '$REPO_NAME' on GitHub..."
+    gh repo create "$REPO_NAME" --public
+fi
 
-git init
+# Initialize a new Git repository if it doesn't exist
+if [ ! -d .git ]; then
+    echo "Initializing new Git repository..."
+    git init
+fi
+
+# Set the remote origin to the correct URL
+git remote remove origin &> /dev/null  # Remove any existing origin to avoid conflicts
+git remote add origin "$ORIGN_URL"
+echo "Remote 'origin' set to $ORIGN_URL."
+
+# Add, commit, and push files
 git add .
-git commit -m "first commit"
+git commit -m "first commit" || echo "Nothing to commit."
 git branch -M main
 git push -u origin main
-
 
 echo "All local files have been pushed successfully."
