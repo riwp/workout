@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Start Workout</title>
+</head>
+<body>
+    <h1>Start Workout</h1>
+    <form action="/play_workout" method="GET">
+        <select name="workout_id">
+            {% for workout in workouts %}
+                <option value="{{ workout[0] }}">{{ workout[1] }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Start</button>
+    </form>
+</body>
+</html>

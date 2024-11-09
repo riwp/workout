@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Organize Workout</title>
+</head>
+<body>
+    <h1>Organize Workout</h1>
+    <form action="/organize" method="POST">
+        <label>Workout Name:</label>
+        <input type="text" name="workout_name" required><br>
+        <label>Description:</label>
+        <input type="text" name="description" required><br>
+        <label>Category:</label>
+        <input type="text" name="category" required><br><br>
+        
+        <h2>Select Audio Files</h2>
+        {% for file in audio_files %}
+            <input type="checkbox" name="selected_files" value="{{ file[0] }}">
+            {{ file[1] }} - {{ file[3] }}<br>
+        {% endfor %}
+
+        <button type="submit">Save Workout</button>
+    </form>
+</body>
+</html>
